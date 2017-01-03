@@ -1,6 +1,13 @@
+Introduction
+===
+A very brief attempt at a PHP challenge. Time-constraints have meant that I have not completed all requirements.
+
+How to run
+===
+Using PHP 7 parse index.php
+
 To-do
 ===
-
 * Implement a set of standardized validators. Right now we just have very basic type checks on the setters and no validation on returned JSON. This was written quickly!
 * Implement character & movie models with links to each other.
 * Write unit tests.
