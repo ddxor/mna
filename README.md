@@ -1,11 +1,13 @@
 Notes
 ===
+* For a quick demonstration run index.php through a PHP7.x CLI
 * PHP 7.x as the runtime interpreted language
 * Composer for dependency management of:
     * rollbar (hosted error tracking software)
         * Exceptions thrown (of any type) will report the error to rollbar, which is an online error tracking platform.
     * phpunit (@todo)
-* Coding style PSR1/2
+* Coding style PSR
+* To run a phpunit unit test (after composer install) run (from the project root) `vendor/bin/phpunit` and see the test output.
 
 Demonstration of
 ===
@@ -22,7 +24,3 @@ Demonstration of
 * Iterators
 * Collections
 * JSON encoding
-
-To-do
-===
-* Write unit tests.

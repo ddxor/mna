@@ -3,6 +3,7 @@
 namespace Mna\ActiveRecord;
 
 use Mna\Exception\MemberFunctionException;
+use \DateTime;
 
 class Movie extends Base
 {

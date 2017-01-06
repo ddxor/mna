@@ -3,6 +3,7 @@
 namespace Mna\ActiveRecord;
 
 use Mna\Exception\MemberFunctionException;
+use \DateTime;
 
 class Actor extends Base
 {
@@ -111,9 +112,11 @@ class Actor extends Base
         if (is_string($dob)) {
             $strDOB = strtotime($dob);
 
-            if ($strDOB) {
-                $this->_dob = new \DateTime('@' . $strDOB);
+            if (!$strDOB) {
+                throw new MemberFunctionException('Could not convert given dob to time');
             }
+
+            $this->_dob = new \DateTime('@' . $strDOB);
         }
 
         if ($dob instanceof DateTime) {
