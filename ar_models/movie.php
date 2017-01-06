@@ -9,6 +9,7 @@ class Movie extends Base
     protected $_title;
     protected $_runtime;
     protected $_releaseDate;
+    protected $_actorCollection;
 
     /** Overriding base _jsonPropertiesMap to add support for title, runtime and releaseDate parameters. */
     protected $_jsonPropertiesMap = [
@@ -16,6 +17,36 @@ class Movie extends Base
         'runtime' => 'getRuntime',
         'releaseDate' => 'getReleaseDate',
     ];
+
+    public function __construct()
+    {
+        $this->_actorCollection = new ActorCollection();
+    }
+
+    /**
+     * Convenience function to add an actor association to this movie
+     *
+     * @author James Anslow <return.404@gmail.com>
+     * @param Actor $actor - the actor to associate with this movie
+     * @return object $this - for chaining purposes
+     */
+    public function addActor(Actor $actor)
+    {
+        $this->_actorCollection->addItem($actor);
+
+        return $this;
+    }
+
+    /**
+     * A simple convenience function that calls getAll on the actor collection object
+     *
+     * @author James Anslow <return.404@gmail.com>
+     * @return object a collection of the actors associated with this movie
+     */
+    public function getActors()
+    {
+        return $this->_actorCollection->getAll();
+    }
 
     /**
      * Convenience function to access protected property _title.
@@ -29,13 +60,13 @@ class Movie extends Base
     }
 
     /**
-     * Sets the _title property of this object according to the given parameter $name.
+     * Sets the _title property of this object according to the given parameter $title.
      *
      * @author  James Anslow <return.404@gmail.com>
      * @param   string $title the title property which will be set.
-     * @return  object $this so that we can chain setters.
+     * @return  Movie $this so that we can chain setters.
      */
-    public function setTitle(string $title): object
+    public function setTitle(string $title): Movie
     {
         $this->_title = $title;
 
@@ -58,9 +89,9 @@ class Movie extends Base
      *
      * @author  James Anslow <return.404@gmail.com>
      * @param   integer $runtime the runtime property which will be set.
-     * @return  object $this so that we can chain setters.
+     * @return  Movie $this so that we can chain setters.
      */
-    public function setRuntime(integer $runtime): object
+    public function setRuntime(int $runtime): Movie
     {
         $this->_runtime = $runtime;
 
@@ -90,24 +121,24 @@ class Movie extends Base
      *
      * @author  James Anslow <return.404@gmail.com>
      * @param   mixed $releaseDate - the releaseDate to set as a date string, timestamp or DateTime object.
-     * @return  Object $this so that we can chain setters.
+     * @return  Movie $this so that we can chain setters.
      * @throws  MemberFunctionException
      */
-    public function setReleaseDate($releaseDate): object
+    public function setReleaseDate($releaseDate): Movie
     {
         if (!$releaseDate) {
             throw new MemberFunctionException('Called setReleaseDate but passed no $releaseDate param');
         }
 
         if (is_int($releaseDate)) {
-            $this->_releaseDate = new DateTime('@' . $releaseDate);
+            $this->_releaseDate = new \DateTime('@' . $releaseDate);
         }
 
         if (is_string($releaseDate)) {
             $strReleaseDate = strtotime($releaseDate);
 
             if ($strReleaseDate) {
-                $this->_releaseDate = new DateTime('@' . $strReleaseDate);
+                $this->_releaseDate = new \DateTime('@' . $strReleaseDate);
             }
         }
 

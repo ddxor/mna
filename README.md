@@ -19,9 +19,10 @@ Demonstration of
 * Library/cloud services usage
 * Dependency management tooling
 * Unit testing (@todo)
+* Iterators
+* Collections
+* JSON encoding
 
 To-do
 ===
-* Implement a set of standardized validators. Right now we just have very basic type checks on the setters and no validation on returned JSON. This was written quickly!
-* Implement character & movie models with links to each other.
 * Write unit tests.

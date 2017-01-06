@@ -8,6 +8,7 @@ class Actor extends Base
 {
     protected $_name;
     protected $_dob;
+    protected $_characterCollection;
 
     /** Overriding base _jsonPropertiesMap to add support for name and dob parameters. */
     protected $_jsonPropertiesMap = [
@@ -15,6 +16,36 @@ class Actor extends Base
         'dob' => 'getDob',
         'guid' => 'getGuid',
     ];
+
+    public function __construct()
+    {
+        $this->_characterCollection = new CharacterCollection();
+    }
+
+    /**
+     * Convenience function to add an actor association to this movie
+     *
+     * @author James Anslow <return.404@gmail.com>
+     * @param Character $character - the character to associate with this actor
+     * @return object $this - for chaining purposes
+     */
+    public function addCharacter(Character $character)
+    {
+        $this->_characterCollection->addItem($character);
+
+        return $this;
+    }
+
+    /**
+     * A simple convenience function that calls getAll on the character collection object
+     *
+     * @author James Anslow <return.404@gmail.com>
+     * @return object a collection of the characters associated with this actor
+     */
+    public function getCharacters()
+    {
+        return $this->_characterCollection->getAll();
+    }
 
     /**
      * Convenience function to access protected property _name.
@@ -32,9 +63,9 @@ class Actor extends Base
      *
      * @author  James Anslow <return.404@gmail.com>
      * @param   string $name the name property which will be set.
-     * @return  object $this so that we can chain setters.
+     * @return  Actor $this so that we can chain setters.
      */
-    public function setName(string $name): object
+    public function setName(string $name): Actor
     {
         $this->_name = $name;
 
@@ -64,24 +95,24 @@ class Actor extends Base
      *
      * @author  James Anslow <return.404@gmail.com>
      * @param   mixed $dob - the dob to set as a date string, timestamp or DateTime object.
-     * @return  Object $this so that we can chain setters.
+     * @return  Actor $this so that we can chain setters.
      * @throws  MemberFunctionException
      */
-    public function setDob($dob): object
+    public function setDob($dob): Actor
     {
         if (!$dob) {
             throw new MemberFunctionException('Called setDob but passed no $dob param');
         }
 
         if (is_int($dob)) {
-            $this->_dob = new DateTime('@' . $dob);
+            $this->_dob = new \DateTime('@' . $dob);
         }
 
         if (is_string($dob)) {
             $strDOB = strtotime($dob);
 
             if ($strDOB) {
-                $this->_dob = new DateTime('@' . $strDOB);
+                $this->_dob = new \DateTime('@' . $strDOB);
             }
         }
 

@@ -7,6 +7,7 @@ abstract class BaseException extends \Exception implements IException
     CONST ROLLBAR_ACCESS_TOKEN = '1bf08349f0694732816ba0a93dda3891';
     CONST DEFAULT_CODE = 0;
     CONST ERROR_CODE_MEMBER_FUNCTION = 1;
+    CONST ERROR_CODE_COLLECTION = 2;
 
     protected static $customCode;
     protected $message;
