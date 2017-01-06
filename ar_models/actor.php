@@ -28,7 +28,7 @@ class Actor extends Base
     }
 
     /**
-     * Sets the name property of this object according to the given parameter $name.
+     * Sets the _name property of this object according to the given parameter $name.
      *
      * @author  James Anslow <return.404@gmail.com>
      * @param   string $name the name property which will be set.
@@ -46,19 +46,21 @@ class Actor extends Base
      *
      * @author  James Anslow <return.404@gmail.com>
      * @param   mixed $stringFormat the format of the returned DOB string. null will return the default format.
-     * @return  string|null a string representation of the DateTime objected stored in the dob property of this object.
+     * @return  string a string representation of the DateTime objected stored in the dob property of this object.
      */
     public function getDOB($stringFormat = 'd/n/Y'): string
     {
-        if (!$this->_dob || !$this->_dob instanceof DateTime) {
-            return null;
+        $dob = '';
+
+        if ($this->_dob && $this->_dob instanceof DateTime) {
+            $dob = $this->_dob->format($stringFormat);
         }
 
-        return $this->_dob->format($stringFormat);
+        return $dob;
     }
 
     /**
-     * Sets the dob property of this object.
+     * Sets the _dob property of this object.
      *
      * @author  James Anslow <return.404@gmail.com>
      * @param   mixed $dob - the dob to set as a date string, timestamp or DateTime object.
