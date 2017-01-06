@@ -2,73 +2,55 @@
 
 namespace Mna\ActiveRecord;
 
-use Mna\Seed as Seed;
+use Mna\Exception\MemberFunctionException;
 
-/**
- * An ActiveRecord class that represents an actor
- *
- * @author James Anslow <return.404@gmail.com>
- *
- */
 class Actor extends Base
 {
     protected $_name;
     protected $_dob;
 
+    /** Overriding base _jsonPropertiesMap to add support for name and dob parameters. */
     protected $_jsonPropertiesMap = [
-        'name'  => 'getName',
-        'dob'   => 'getDob',
-        'guid'  => 'getGuid',
+        'name' => 'getName',
+        'dob' => 'getDob',
+        'guid' => 'getGuid',
     ];
 
     /**
-     * Populating some sample data
-     */
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->_name = Seed::generateString();
-        $this->_dob = Seed::generateDOB();
-    }
-
-    /**
-     * Convenience function to access protected property _guid from the base class
+     * Convenience function to access protected property _name.
      *
      * @author  James Anslow <return.404@gmail.com>
-     * @param   none
-     * @return  String the GUID of this object
-     *
+     * @return  string the name of the actor, or null if this actor has no name.
      */
-    public function getGuid() : string
-    {
-        return self::_getGuid();
-    }
-
-    /**
-     * Convenience function to access protected property _name
-     *
-     * @author  James Anslow <return.404@gmail.com>
-     * @param   none
-     * @return  String the name of the actor, or null if this actor has no name
-     *
-     */
-    public function getName() : string
+    public function getName(): string
     {
         return $this->_name;
     }
 
     /**
-     * Convenience function to access protected property _dob
+     * Sets the name property of this object according to the given parameter $name.
      *
      * @author  James Anslow <return.404@gmail.com>
-     * @param   $stringFormat defines the format of the returned DOB string
-     * @return  String
-     *
+     * @param   string $name the name property which will be set.
+     * @return  object $this so that we can chain setters.
      */
-    public function getDOB($stringFormat='d/n/Y') : string
+    public function setName(string $name): object
     {
-        if (!$this->_dob) {
+        $this->_name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Convenience function to access protected property _dob.
+     *
+     * @author  James Anslow <return.404@gmail.com>
+     * @param   mixed $stringFormat the format of the returned DOB string. null will return the default format.
+     * @return  string|null a string representation of the DateTime objected stored in the dob property of this object.
+     */
+    public function getDOB($stringFormat = 'd/n/Y'): string
+    {
+        if (!$this->_dob || !$this->_dob instanceof DateTime) {
             return null;
         }
 
@@ -76,40 +58,17 @@ class Actor extends Base
     }
 
     /**
-     * Sets the name property of this object
+     * Sets the dob property of this object.
      *
      * @author  James Anslow <return.404@gmail.com>
-     * @param   $name the name to set
-     * @return  Object $this so that we can chain setters
-     *
+     * @param   mixed $dob - the dob to set as a date string, timestamp or DateTime object.
+     * @return  Object $this so that we can chain setters.
+     * @throws  MemberFunctionException
      */
-    public function setName(String $name) : object
-    {
-        if (!$name) {
-            return $this;
-        }
-
-        if (!is_string($name)) {
-            return $this;
-        }
-
-        $this->_name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Sets the dob property of this object
-     *
-     * @author  James Anslow <return.404@gmail.com>
-     * @param   $dob the dob to set as a date string, timestamp or DateTime object
-     * @return  Object $this so that we can chain setters
-     *
-     */
-    public function setDob($dob) : object
+    public function setDob($dob): object
     {
         if (!$dob) {
-            return $this;
+            throw new MemberFunctionException('Called setDob but passed no $dob param');
         }
 
         if (is_int($dob)) {
@@ -117,7 +76,11 @@ class Actor extends Base
         }
 
         if (is_string($dob)) {
-            $this->_dob = new DateTime('@' . strtotime($dob));
+            $strDOB = strtotime($dob);
+
+            if ($strDOB) {
+                $this->_dob = new DateTime('@' . $strDOB);
+            }
         }
 
         if ($dob instanceof DateTime) {
