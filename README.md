@@ -5,7 +5,7 @@ Notes
 * Composer for dependency management of:
     * rollbar (hosted error tracking software)
         * Exceptions thrown (of any type) will report the error to rollbar, which is an online error tracking platform.
-    * phpunit (@todo)
+    * phpunit
 * Coding style PSR
 * To run a phpunit unit test (after composer install) run (from the project root) `vendor/bin/phpunit` and see the test output.
 
@@ -20,7 +20,7 @@ Demonstration of
 * Return type declarations
 * Library/cloud services usage
 * Dependency management tooling
-* Unit testing (@todo)
+* Unit testing
 * Iterators
 * Collections
 * JSON encoding
