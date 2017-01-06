@@ -25,16 +25,16 @@ $actor2->setGuid(uniqid())
 
 $character21 = new Mna\ActiveRecord\Character();
 $character21->setGuid(uniqid())
-    ->setName('Bob Smith');
+            ->setName('Bob Smith');
 
 $actor2->addCharacter($character21);
 
 $movie = new Mna\ActiveRecord\Movie();
 $movie->setGuid(uniqid())
-    ->setTitle('Amazing Action Film')
-    ->setRuntime(5400) // 1.5 hours
-    ->setReleaseDate('25 Oct 2015')
-    ->addActor($actor1)
-    ->addActor($actor2);
+      ->setTitle('Amazing Action Film')
+      ->setRuntime(5400) // 1.5 hours
+      ->setReleaseDate('25 Oct 2015')
+      ->addActor($actor1)
+      ->addActor($actor2);
 
 die(var_dump($movie));
